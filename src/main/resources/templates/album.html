@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+	<title>Albums</title>
+	<meta http-equiv="Content-Type" content="text/html";>
+</head>
+<body>
+	<div>
+	<h1>Hello <span sec:authentication="name"></span>!</h1>
+	<form th:action="@{/logout}" method="post">
+	<input type="submit" value="Sign Out"/>
+	</form>
+	</div>
+	<div>
+    <!-- Button to add a new album -->
+    <a sec:authorize="hasAuthority('ADMIN')" href="/album/add">Add New Album</a>
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Album Name</th>
+				<th>Artist</th>
+				<th>Genre</th>
+				<th>Price</th>
+				<th>Release Year</th>
+				<th>Actions</th>
+				<th>Songs In Album</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="album : ${albums}">
+				<td th:text="${album.id}"></td>
+				<td th:text="${album.albumname}"></td>
+				<td th:text="${album.artist}"></td>
+				<td th:text="${album.genre}"></td>
+				<td th:text="${album.coverimage}"></td>
+				<td th:text="${album.releaseyear}"></td>
+				<!-- Delete button for each album -->
+				<td sec:authorize="hasAuthority('ADMIN')"><form th:action="@{/album/edit/{id}(id=${album.id})}">
+					<input type="submit" value="Edit"></form>  
+					<form th:action="@{/album/delete/{id}(id=${album.id})}" method="post">
+        			<input type="submit" value="Delete" /></form>
+        		</td>
+        		<td sec:authorize="hasAuthority('ADMIN')">
+					<a href="album/{id}/songs" th:href="@{/album/{id}/songs(id=${album.id})}">View Songs</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>

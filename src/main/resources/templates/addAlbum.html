@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Add New Album</title>
+    <meta http-equiv="Content-Type" content="text/html">
+</head>
+<body>
+	<h2>Add Album to the list</h2>
+	<div>
+	    <form th:object="${album}" th:action="@{/album/save}" method="post">
+	        <label for="albumname">Album Name:</label>
+	        <input type="text" th:field="*{albumname}" required>
+	        <label for="artist">Artist:</label>
+	        <input type="text" th:field="*{artist}" required>
+	        <label for="genre">Genre:</label>
+	        <input type="text" th:field="*{genre}" required>
+	        <label for="coverimage">Price:</label>
+	        <input type="text" th:field="*{coverimage}" required>
+	        <label for="releaseyear">Release Year:</label>
+	        <input type="text" th:field="*{releaseyear}" required>
+	        
+	        
+	        <!-- Add fields as required -->
+			<div style="clear: both; display: block; height: 15px;"></div>
+	        <input type="submit" value="Save">
+	    </form>
+	</div>
+</body>
+</html>

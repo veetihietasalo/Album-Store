@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Add Song</title>
+    
+</head>
+<body>
+    <h2>Add Song to Album</h2>
+    <form th:action="@{/album/{albumId}/song/add(id=${albumId})}" th:object="${song}" method="post">
+        <input type="text" th:field="*{song}" placeholder="Song Name"/>
+        <input type="submit" value="Add Song"/>
+    </form>
+</body>
+</html>

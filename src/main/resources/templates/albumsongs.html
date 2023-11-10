@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Songs in Album</title>
+    <!-- ... -->
+</head>
+<body>
+    <h2>Songs in Album</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Song ID</th>
+                <th>Song Name</th>
+                <th>Album ID</th>
+                <!-- Other song attributes if needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="song : ${songs}">
+                <td th:text="${song.id}"></td>
+                <td th:text="${song.song}"></td>
+                <td th:text="${song.album.id}">
+                <!-- Other song attributes if needed -->
+            </tr>
+            <a href="/album/{albumId}/song/add" th:href="@{/album/{albumId}/songs(id=${albumId})}">Add new Song</a>
+        </tbody>
+    </table>
+</body>
+</html>
