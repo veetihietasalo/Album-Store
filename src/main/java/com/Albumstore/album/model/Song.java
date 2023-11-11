@@ -58,7 +58,10 @@ public class Song {
 	public void setAlbum(Album album) {
 		this.album = album;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Song [id=" + id + ", song=" + song + ", album=" + album + "]";
+	}
 	
 }

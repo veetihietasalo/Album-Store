@@ -49,11 +49,11 @@ public class AlbumController {
         
     }
     
-    @GetMapping("/album/{albumId}/song/add")
-    public String addSongForm(@PathVariable Long albumId, Model model) {
+    @GetMapping("/album/{id}/song/add")
+    public String addSongForm(@PathVariable Long id, Model model) {
         Song song = new Song();
         model.addAttribute("song", song);
-        model.addAttribute("albumId", albumId);
+        model.addAttribute("id", id);
         return "addsong"; // Thymeleaf template for adding a song
     }
 
@@ -64,8 +64,9 @@ public class AlbumController {
             .orElseThrow(() -> new IllegalArgumentException("Invalid album Id:" + id));
         song.setAlbum(album);
         songRepository.save(song);
-        return "redirect:/album/{id}/songs"; // Redirect to the song list of the album
+        return "redirect:/album/" + id + "/songs"; // Redirect to the song list of the album
     }
+
 
     @RequestMapping(value="/album/{id}", method = RequestMethod.GET)
     public @ResponseBody Optional<Album> findAlbumById(@PathVariable("id") Long id) {
@@ -103,15 +104,6 @@ public class AlbumController {
     public String deleteAlbum(@PathVariable Long id) {
         repository.deleteById(id);
         return "redirect:/album";
-    }
-    
-    @PostMapping("/album/{albumId}/song/add")
-    public String addSongToAlbum(@PathVariable Long albumId, @ModelAttribute Song song) {
-        Album album = repository.findById(albumId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid album Id:" + albumId));
-        song.setAlbum(album);
-        songRepository.save(song);
-        return "redirect:/album/" + albumId;
     }
 
     
