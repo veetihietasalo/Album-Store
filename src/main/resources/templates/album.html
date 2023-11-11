@@ -8,11 +8,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 </head>
 <body>
 	<div>
-	<h1>Hello <span sec:authentication="name"></span>!</h1>
+	<h1>Hello user: <span sec:authentication="name"></span>!</h1>
+	</div>
 	<form th:action="@{/logout}" method="post">
 	<input type="submit" value="Sign Out"/>
 	</form>
-	</div>
+	
 	<div>
     <!-- Button to add a new album -->
     <a sec:authorize="hasAuthority('ADMIN')" href="/album/add">Add New Album</a>
@@ -25,7 +26,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 				<th>Genre</th>
 				<th>Price</th>
 				<th>Release Year</th>
-				<th>Actions</th>
+				<th sec:authorize ="hasAuthority('ADMIN')">Actions</th>
 				<th>Songs In Album</th>
 			</tr>
 		</thead>
@@ -43,7 +44,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 					<form th:action="@{/album/delete/{id}(id=${album.id})}" method="post">
         			<input type="submit" value="Delete" /></form>
         		</td>
-        		<td sec:authorize="hasAuthority('ADMIN')">
+        		<td>
 					<a href="album/{id}/songs" th:href="@{/album/{id}/songs(id=${album.id})}">View Songs</a>
 				</td>
 			</tr>
