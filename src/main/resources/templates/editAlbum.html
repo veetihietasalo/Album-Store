@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<link rel="stylesheet" th:href="@{/css/style.css}" />
-    <albumName>Edit Album</albumName>
+    <h1>Edit Album</h1>
 </head>
 <body>
     <form th:object="${album}" th:action="@{/album/update/{id}(id=${album.id})}" method="post">

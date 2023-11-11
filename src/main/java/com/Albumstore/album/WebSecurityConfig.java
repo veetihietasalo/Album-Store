@@ -19,6 +19,8 @@ public class WebSecurityConfig {
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 	http
 		.authorizeHttpRequests( authorize -> authorize
+				.requestMatchers(antMatcher("/resources/l.css")).permitAll()
+				.requestMatchers(antMatcher("/resources/style.css")).permitAll()
 				.requestMatchers(antMatcher("/resources/**")).permitAll()
 				.requestMatchers(antMatcher("/album")).permitAll()
 				.requestMatchers(antMatcher("/album/**")).hasAuthority("ADMIN")

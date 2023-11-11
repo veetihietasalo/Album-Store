@@ -14,7 +14,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                 <th>Song ID</th>
                 <th>Song Name</th>
                 <th>Album ID</th>
-                <!-- Other song attributes if needed -->
+                
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
                 <td th:text="${song.id}"></td>
                 <td th:text="${song.song}"></td>
                 <td th:text="${song.album.id}">
-                <!-- Other song attributes if needed -->
             </tr>
             <a href="/album/{id}/song/add" th:href="@{/album/{id}/song/add(id=${id})}">Add new Song</a>
 
