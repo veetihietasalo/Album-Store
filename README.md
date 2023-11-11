@@ -1,3 +1,3 @@
 # songalbum
 
-Tietokannn luontiscriptit .sql-päätteisessä tiedostossa.
+Tietokannn luontiscriptit albums.sql tiedostossa.
