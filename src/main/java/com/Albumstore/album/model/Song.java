@@ -17,23 +17,19 @@ public class Song {
 	
 	private String song;
 	
-	
-	public Song(Long id, String song, Album album) {
-		super();
-		this.id = id;
-		this.song = song;
-		this.album = album;
-	}
-
-	public Song() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "album_id")
 	private Album album;
-
+	
+	public Song(String song, Album album) {
+		super();
+		this.song = song;
+		this.album = album;
+	}
+	
+	public Song() {
+		
+	}
 	
 	public Long getId() {
 		return id;

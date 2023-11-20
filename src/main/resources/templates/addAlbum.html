@@ -2,30 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
     <title>Add New Album</title>
     <meta http-equiv="Content-Type" content="text/html">
 </head>
 <body>
-	<h2>Add Album to the list</h2>
-	<div>
-	    <form th:object="${album}" th:action="@{/album/save}" method="post">
-	        <label for="albumname">Album Name:</label>
-	        <input type="text" th:field="*{albumname}" required>
-	        <label for="artist">Artist:</label>
-	        <input type="text" th:field="*{artist}" required>
-	        <label for="genre">Genre:</label>
-	        <input type="text" th:field="*{genre}" required>
-	        <label for="coverimage">Price:</label>
-	        <input type="text" th:field="*{coverimage}" required>
-	        <label for="releaseyear">Release Year:</label>
-	        <input type="text" th:field="*{releaseyear}" required>
-	        
-	        
-	        <!-- Add fields as required -->
-			<div style="clear: both; display: block; height: 15px;"></div>
-	        <input type="submit" value="Save">
-	    </form>
-	</div>
+    <h2>Add Album to the list</h2>
+    <div>
+        <form th:object="${album}" th:action="@{/album/save}" method="post">
+            <label for="albumname">Album Name:</label>
+            <input type="text" th:field="*{albumname}">
+            <div class="error" th:if="${#fields.hasErrors('albumname')}" th:errors="*{albumname}"></div>
+
+            <label for="artist">Artist:</label>
+            <input type="text" th:field="*{artist}">
+            <div class="error" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}"></div>
+
+            <label for="genre">Genre:</label>
+            <input type="text" th:field="*{genre}">
+            <div class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+
+            <label for="coverimage">Price:</label>
+            <input type="text" th:field="*{coverimage}">
+            <div class="error" th:if="${#fields.hasErrors('coverimage')}" th:errors="*{coverimage}"></div>
+
+            <label for="releaseyear">Release Year:</label>
+            <input type="text" th:field="*{releaseyear}">
+            <div class="error" th:if="${#fields.hasErrors('releaseyear')}" th:errors="*{releaseyear}"></div>
+
+            <div style="clear: both; display: block; height: 15px;"></div>
+            <input type="submit" value="Save">
+            <div class="error" th:if="${#fields.hasGlobalErrors()}">
+			    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Error</p>
+			</div>
+        </form>
+    </div>
 </body>
 </html>

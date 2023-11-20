@@ -1,16 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
-    <h1>Edit Album</h1>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>Edit Album</title>
 </head>
 <body>
+    <h1>Edit Album</h1>
     <form th:object="${album}" th:action="@{/album/update/{id}(id=${album.id})}" method="post">
-        Album Name: <input type="text" th:field="*{albumname}" /><br>
-        Artist: <input type="text" th:field="*{artist}" /><br>
-        Genre: <input type="text" th:field="*{genre}" /><br>
-        Price: <input type="text" th:field="*{coverimage}" /><br>
-        Release Year: <input type="text" th:field="*{releaseyear}" /><br>
+        <div>
+            Album Name: <input type="text" th:field="*{albumname}" />
+            <div class="error" th:if="${#fields.hasErrors('albumname')}" th:errors="*{albumname}"></div>
+        </div>
+        <div>
+            Artist: <input type="text" th:field="*{artist}" />
+            <div class="error" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}"></div>
+        </div>
+        <div>
+            Genre: <input type="text" th:field="*{genre}" />
+            <div class="error" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+        </div>
+        <div>
+            Price: <input type="text" th:field="*{coverimage}" />
+            <div class="error" th:if="${#fields.hasErrors('coverimage')}" th:errors="*{coverimage}"></div>
+        </div>
+        <div>
+            Release Year: <input type="text" th:field="*{releaseyear}" />
+            <div class="error" th:if="${#fields.hasErrors('releaseyear')}" th:errors="*{releaseyear}"></div>
+        </div>
         <input type="submit" value="Update Album" />
     </form>
 </body>

@@ -3,12 +3,19 @@ package com.Albumstore.album.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Album {
@@ -16,14 +23,31 @@ public class Album {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	private String albumname, artist, genre;
+	
+	@Size(min=1, max=100)
+	@NotBlank(message = "Album name is required!")
+	private String albumname;
+	
+	@Size(min=1, max=100)
+	@NotBlank(message = "Artist is required!")
+	private String artist;
+	
+	@Size(min=1, max=50)
+	@NotBlank(message = "Genre is required")
+	private String genre;
+	
 	private double coverimage;
+	
+	@Min(value = 1900, message = "Release year must be after 1900")
 	private int releaseyear;
 	
 	public Album() {
-		super();
-		// TODO Auto-generated constructor stub
+		
 	}
+	
+	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+    private List<Song> songs = new ArrayList<>();
 
 	public Album(String albumname, String artist, String genre, double coverimage, int releaseyear) {
 		super();
@@ -33,9 +57,6 @@ public class Album {
 		this.coverimage = coverimage;
 		this.releaseyear = releaseyear;
 	}
-	
-	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Song> songs = new ArrayList<>();
 	
 	public String getAlbumname() {
 		return albumname;
