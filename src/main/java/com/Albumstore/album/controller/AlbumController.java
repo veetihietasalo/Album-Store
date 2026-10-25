@@ -84,6 +84,7 @@ public class AlbumController {
             System.out.println("Errors: " + result.getAllErrors());
             return "addalbum";
         }
+        album.setId(null); // always a new album, a posted id must not overwrite one
         repository.save(album);
         return "redirect:/album";
     }
@@ -102,8 +103,16 @@ public class AlbumController {
         	model.addAttribute("id", id);
         	return "editalbum";
         }
-    	album.setId(id); // Sets the ID of the album
-        repository.save(album); // Saves the updated album
+        // Copy the form fields onto the saved album. Saving the form object itself
+        // replaced the song list with an empty one, and orphanRemoval deleted the songs.
+        Album existing = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid album Id:" + id));
+        existing.setAlbumname(album.getAlbumname());
+        existing.setArtist(album.getArtist());
+        existing.setGenre(album.getGenre());
+        existing.setCoverimage(album.getCoverimage());
+        existing.setReleaseyear(album.getReleaseyear());
+        repository.save(existing); // Saves the updated album
         return "redirect:/album"; // Redirects to the album list
     }
     
