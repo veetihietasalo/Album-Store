@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.Albumstore.album.model.Album;
@@ -58,12 +59,14 @@ public class AlbumController {
         return "addsong"; // Returns the view for adding a new song
     }
 
+    // Takes the song name as a plain parameter. With @ModelAttribute Song the
+    // "song" field clashed with the attribute name (every add failed with 400),
+    // and the {id} path variable was bound as the song id.
     @PostMapping("/album/{id}/song/add") // Mapping for adding a new song to an album
-    public String addSong(@PathVariable Long id, @ModelAttribute Song song) {
+    public String addSong(@PathVariable Long id, @RequestParam("song") String name) {
         Album album = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Invalid album Id:" + id));
-        song.setAlbum(album); // Sets the album of the song
-        songRepository.save(song); // Saves the new song
+        songRepository.save(new Song(name, album)); // Saves the new song
         return "redirect:/album/" + id + "/songs"; // Redirects to the song list of the album
     }
 
