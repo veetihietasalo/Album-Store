@@ -37,6 +37,7 @@ public class AlbumRestController {
     @PostMapping
     public ResponseEntity<Album> addAlbum(@Valid @RequestBody Album album) {
     	System.out.println("Received album: " + album);
+        album.setId(null); // POST always creates, use PUT /{id} to update
         Album savedAlbum = albumRepository.save(album);
         return new ResponseEntity<>(savedAlbum, HttpStatus.CREATED);
     }

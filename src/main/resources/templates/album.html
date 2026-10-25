@@ -7,12 +7,16 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 	<meta http-equiv="Content-Type" content="text/html";>
 </head>
 <body>
-	<div>
+	<div sec:authorize="isAuthenticated()">
 	<h1>Hello user: <span sec:authentication="name"></span>!</h1>
-	</div>
 	<form th:action="@{/logout}" method="post">
 	<input type="submit" value="Sign Out"/>
 	</form>
+	</div>
+	<div sec:authorize="!isAuthenticated()">
+	<h1>Albums</h1>
+	<a th:href="@{/login}">Sign In</a>
+	</div>
 	
 	<div>
     <!-- Button to add a new album -->

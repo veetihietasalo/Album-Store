@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.Albumstore.album.model.Album;
@@ -58,12 +59,14 @@ public class AlbumController {
         return "addsong"; // Returns the view for adding a new song
     }
 
+    // Takes the song name as a plain parameter. With @ModelAttribute Song the
+    // "song" field clashed with the attribute name (every add failed with 400),
+    // and the {id} path variable was bound as the song id.
     @PostMapping("/album/{id}/song/add") // Mapping for adding a new song to an album
-    public String addSong(@PathVariable Long id, @ModelAttribute Song song) {
+    public String addSong(@PathVariable Long id, @RequestParam("song") String name) {
         Album album = repository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Invalid album Id:" + id));
-        song.setAlbum(album); // Sets the album of the song
-        songRepository.save(song); // Saves the new song
+        songRepository.save(new Song(name, album)); // Saves the new song
         return "redirect:/album/" + id + "/songs"; // Redirects to the song list of the album
     }
 
@@ -84,6 +87,7 @@ public class AlbumController {
             System.out.println("Errors: " + result.getAllErrors());
             return "addalbum";
         }
+        album.setId(null); // always a new album, a posted id must not overwrite one
         repository.save(album);
         return "redirect:/album";
     }
@@ -102,8 +106,16 @@ public class AlbumController {
         	model.addAttribute("id", id);
         	return "editalbum";
         }
-    	album.setId(id); // Sets the ID of the album
-        repository.save(album); // Saves the updated album
+        // Copy the form fields onto the saved album. Saving the form object itself
+        // replaced the song list with an empty one, and orphanRemoval deleted the songs.
+        Album existing = repository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid album Id:" + id));
+        existing.setAlbumname(album.getAlbumname());
+        existing.setArtist(album.getArtist());
+        existing.setGenre(album.getGenre());
+        existing.setCoverimage(album.getCoverimage());
+        existing.setReleaseyear(album.getReleaseyear());
+        repository.save(existing); // Saves the updated album
         return "redirect:/album"; // Redirects to the album list
     }
     
