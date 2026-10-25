@@ -57,6 +57,7 @@ public class WebSecurityConfig {
 				.requestMatchers(antMatcher("/album/**")).hasAuthority("ADMIN")
 				.anyRequest().authenticated())
 			.formLogin(formlogin -> formlogin
+				.loginPage("/login")
 				.defaultSuccessUrl("/album", true)
 				.permitAll())
 			.logout(logout -> logout.permitAll());
