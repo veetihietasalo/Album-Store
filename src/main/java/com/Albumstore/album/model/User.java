@@ -1,5 +1,7 @@
 package com.Albumstore.album.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,6 +19,7 @@ public class User {
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
 	
+	@JsonIgnore
 	@Column(name = "password", nullable = false)
 	private String passwordHash;
 	
